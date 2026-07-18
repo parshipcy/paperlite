@@ -8,10 +8,15 @@ import { styled } from '@mui/material/styles'
 
 const StyledEditor = styled('div')({
   backgroundColor: '#f5f5f5',
-  height: '100vh',
+  height: 'calc(100vh - 48px)',
   display: 'flex',
   flexDirection: 'column',
   borderRadius: '8px',
+  width: '100%',
+  maxWidth: '920px',
+  margin: '24px auto',
+  padding: '16px',
+  boxSizing: 'border-box',
 })
 const toolbarOptions = [
   ['bold', 'italic', 'underline', 'strike'],
@@ -43,7 +48,7 @@ const Editor = () => {
   }, [])
 
   return (
-    <StyledEditor>
+    <StyledEditor className="paperlite-editor">
       <Box id="editor" sx={{ flex: 1, minHeight: 0 }} />
     </StyledEditor>
   )

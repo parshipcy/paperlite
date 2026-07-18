@@ -5,3 +5,22 @@
 .ql-snow .ql-picker.ql-header .ql-picker-label:not([data-value])::before {
   content: 'Heading';
 }
+
+.paperlite-editor .ql-toolbar.ql-snow {
+  background: #ffffff;
+  border: 1px solid #d8dee4;
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+
+.paperlite-editor .ql-container.ql-snow {
+  margin-top: 10px;
+  background: #ffffff;
+  border: 1px solid #d8dee4;
+  border-radius: 10px;
+  min-height: 420px;
+}
+
+.paperlite-editor .ql-editor {
+  padding: 16px;
+}
