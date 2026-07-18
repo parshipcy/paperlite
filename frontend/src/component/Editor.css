@@ -18,7 +18,10 @@
   background: #ffffff;
   border: 1px solid #d8dee4;
   border-radius: 10px;
-  min-height: 420px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 .paperlite-editor .ql-editor {
