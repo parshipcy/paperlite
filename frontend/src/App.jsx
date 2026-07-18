@@ -1,9 +1,9 @@
-import Editor from "./component/Editor"
+import Editor from './component/Editor'
 
 function App() {
   return (
     <>
-      <Editor/>
+      <Editor />
     </>
   )
 }
