@@ -8,7 +8,7 @@ import { styled } from '@mui/material/styles'
 
 const StyledEditor = styled('div')({
   backgroundColor: '#f5f5f5',
-  height: 'calc(100vh - 48px)',
+  flex: 1,
   display: 'flex',
   flexDirection: 'column',
   borderRadius: '8px',
