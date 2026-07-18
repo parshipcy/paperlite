@@ -1,8 +1,10 @@
+import Editor from "./component/Editor"
+
 function App() {
   return (
-    <div>
-
-    </div>
+    <>
+      <Editor/>
+    </>
   )
 }
 
