@@ -1,0 +1,7 @@
+.ql-snow .ql-picker.ql-size .ql-picker-label:not([data-value])::before {
+  content: 'Size';
+}
+
+.ql-snow .ql-picker.ql-header .ql-picker-label:not([data-value])::before {
+  content: 'Heading';
+}
