@@ -1,0 +1,25 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/parshipcy/paperlite#readme",
+  "bugs": {
+    "url": "https://github.com/parshipcy/paperlite/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/parshipcy/paperlite.git"
+  },
+  "license": "ISC",
+  "author": "Parship",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "dependencies": {
+    "nodemon": "^3.1.14",
+    "socket.io": "^4.8.3"
+  }
+}

@@ -1,10 +1,10 @@
 import { useEffect } from 'react'
-
 import Quill from 'quill'
 import 'quill/dist/quill.snow.css'
 import './Editor.css'
 import Box from '@mui/material/Box'
 import { styled } from '@mui/material/styles'
+import io from 'socket.io-client'
 
 const StyledEditor = styled('div')({
   backgroundColor: '#f5f5f5',
@@ -46,6 +46,13 @@ const Editor = () => {
       modules: { toolbar: toolbarOptions },
     })
   }, [])
+
+  useEffect(() => {
+    const socket = io('http://localhost:3000')
+    return () => {
+      socket.disconnect()
+    }
+  },[])
 
   return (
     <StyledEditor className="paperlite-editor">
