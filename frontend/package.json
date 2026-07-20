@@ -15,7 +15,9 @@
     "quill": "^2.0.3",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
-    "socket.io-client": "^4.8.3"
+    "react-router-dom": "^7.18.1",
+    "socket.io-client": "^4.8.3",
+    "uuid": "^14.0.1"
   },
   "devDependencies": {
     "@types/react": "^19.2.17",
