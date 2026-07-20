@@ -1,10 +1,16 @@
 import { useEffect, useState } from 'react'
+
 import Quill from 'quill'
 import 'quill/dist/quill.snow.css'
+
 import './Editor.css'
+
 import Box from '@mui/material/Box'
 import { styled } from '@mui/material/styles'
+
 import io from 'socket.io-client'
+
+import { useParams } from 'react-router-dom'
 
 const StyledEditor = styled('div')({
   backgroundColor: '#f5f5f5',
@@ -43,6 +49,7 @@ const toolbarOptions = [
 const Editor = () => {
   const [socket, setSocket] = useState()
   const [quill, setQuill] = useState()
+  const { id } = useParams()
 
   // Initialize Quill
   useEffect(() => {
@@ -51,6 +58,8 @@ const Editor = () => {
       theme: 'snow',
       modules: { toolbar: toolbarOptions },
     })
+    quillServer.disable()
+    quillServer.setText('Loading...')
     setQuill(quillServer)
   }, [])
 
@@ -101,6 +110,23 @@ const Editor = () => {
       socket && socket.off('receive-text-change', handleReceiveTextChange)
     }
   }, [socket, quill])
+
+
+  useEffect(() => {
+    if (!socket || !quill) return
+
+    const handleReceiveDocument = (document) => {
+      quill.setContents(document.content)
+      quill.enable()
+    }
+
+    socket.on('receive-document', handleReceiveDocument)
+    socket.emit('get-document', id)
+
+    return () => {
+      socket.off('receive-document', handleReceiveDocument)
+    }
+  }, [socket, quill, id])
 
   return (
     <StyledEditor className="paperlite-editor">
