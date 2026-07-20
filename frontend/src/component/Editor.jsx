@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Quill from 'quill'
 import 'quill/dist/quill.snow.css'
 import './Editor.css'
@@ -18,6 +18,7 @@ const StyledEditor = styled('div')({
   padding: '16px',
   boxSizing: 'border-box',
 })
+
 const toolbarOptions = [
   ['bold', 'italic', 'underline', 'strike'],
   ['blockquote', 'code-block'],
@@ -40,22 +41,70 @@ const toolbarOptions = [
 ]
 
 const Editor = () => {
+  const [socket, setSocket] = useState()
+  const [quill, setQuill] = useState()
+
+  // Initialize Quill
   useEffect(() => {
-    const quill = new Quill('#editor', {
+    // Important: Quill needs a real DOM element. That's why there's <Box id="editor" /> in the JSX below
+    const quillServer = new Quill('#editor', {
       theme: 'snow',
       modules: { toolbar: toolbarOptions },
     })
+    setQuill(quillServer)
   }, [])
 
+
+  // Connect to backend
   useEffect(() => {
-    const socket = io('http://localhost:3000')
+    const socketServer = io('http://localhost:3000')
+    setSocket(socketServer)
+
+    // Without cleanup, the socket would remain connected,
+    // potentially causing memory leaks or duplicate connections if the component mounts again.
     return () => {
-      socket.disconnect()
+      socketServer.disconnect()
     }
   }, [])
 
+
+  // Send text changes to the backend
+  useEffect(() => {
+    if (!socket || !quill) return
+
+    const handleTextChange = (delta, _oldDelta, source) => {
+      if (source !== 'user') {
+        return
+      }
+      socket.emit('text-change', delta)
+    }
+
+    quill && quill.on('text-change', handleTextChange)
+
+    return () => {
+      quill && quill.off('text-change', handleTextChange)
+    }
+  }, [socket, quill])
+
+
+  // Receive text changes
+  useEffect(() => {
+    if (!socket || !quill) return
+
+    const handleReceiveTextChange = (delta) => {
+      quill.updateContents(delta)
+    }
+
+    socket && socket.on('receive-text-change', handleReceiveTextChange)
+
+    return () => {
+      socket && socket.off('receive-text-change', handleReceiveTextChange)
+    }
+  }, [socket, quill])
+
   return (
     <StyledEditor className="paperlite-editor">
+      {/* sx prop is Material UI's way of writing CSS */}
       <Box id="editor" sx={{ flex: 1, minHeight: 0 }} />
     </StyledEditor>
   )
