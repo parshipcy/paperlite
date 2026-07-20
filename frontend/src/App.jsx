@@ -2,7 +2,12 @@ import { useRef } from 'react'
 import Box from '@mui/material/Box'
 import Editor from './component/Editor'
 import Header from './component/Header'
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from 'react-router-dom'
 import { v4 as uuid } from 'uuid'
 
 function DocPage() {

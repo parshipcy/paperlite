@@ -81,7 +81,6 @@ const Editor = ({ quillRef }) => {
     }
   }, [])
 
-
   // Send text changes to the backend
   useEffect(() => {
     if (!socket || !quill) return
@@ -100,7 +99,6 @@ const Editor = ({ quillRef }) => {
     }
   }, [socket, quill])
 
-
   // Receive text changes
   useEffect(() => {
     if (!socket || !quill) return
@@ -115,7 +113,6 @@ const Editor = ({ quillRef }) => {
       socket && socket.off('receive-text-change', handleReceiveTextChange)
     }
   }, [socket, quill])
-
 
   // Receive document
   useEffect(() => {
@@ -134,7 +131,6 @@ const Editor = ({ quillRef }) => {
     }
   }, [socket, quill, id])
 
-
   // Save document
   useEffect(() => {
     if (!socket || !quill) return
@@ -145,7 +141,6 @@ const Editor = ({ quillRef }) => {
 
     return () => clearInterval(interval)
   }, [socket, quill])
-
 
   return (
     <StyledEditor className="paperlite-editor">

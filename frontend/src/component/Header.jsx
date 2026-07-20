@@ -101,7 +101,14 @@ const Header = ({ quillRef }) => {
           by Parship
         </Typography>
 
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 1 }}>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            alignItems: 'center',
+            gap: 1,
+          }}
+        >
           <Tooltip title="Download as PDF">
             <span>
               <IconButton
