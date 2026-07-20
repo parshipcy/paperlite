@@ -1,12 +1,36 @@
+import { useState } from 'react'
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
+import CircularProgress from '@mui/material/CircularProgress'
+import IconButton from '@mui/material/IconButton'
 import Toolbar from '@mui/material/Toolbar'
+import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 import FavoriteIcon from '@mui/icons-material/Favorite'
-import logo from '../../assets/paperlite.png'
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf'
+import { useParams } from 'react-router-dom'
 
-const Header = () => {
+import logo from '../../assets/paperlite.png'
+import { exportDocumentAsPdf } from '../utils/exportPdf'
+
+const Header = ({ quillRef }) => {
+  const { id } = useParams()
+  const [isExporting, setIsExporting] = useState(false)
+
+  const handleDownloadPdf = async () => {
+    if (!quillRef?.current || isExporting) return
+
+    setIsExporting(true)
+    try {
+      await exportDocumentAsPdf(quillRef.current, id)
+    } catch (error) {
+      console.error('Failed to export PDF:', error)
+    } finally {
+      setIsExporting(false)
+    }
+  }
+
   return (
     <AppBar
       position="static"
@@ -56,7 +80,23 @@ const Header = () => {
           by Parship
         </Typography>
 
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 1 }}>
+          <Tooltip title="Download as PDF">
+            <span>
+              <IconButton
+                size="small"
+                onClick={handleDownloadPdf}
+                disabled={isExporting}
+                aria-label="Download as PDF"
+              >
+                {isExporting ? (
+                  <CircularProgress size={20} />
+                ) : (
+                  <PictureAsPdfIcon fontSize="small" />
+                )}
+              </IconButton>
+            </span>
+          </Tooltip>
           <Button variant="outlined" size="small">
             Share
           </Button>

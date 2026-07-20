@@ -46,7 +46,7 @@ const toolbarOptions = [
   ['clean'],
 ]
 
-const Editor = () => {
+const Editor = ({ quillRef }) => {
   const [socket, setSocket] = useState()
   const [quill, setQuill] = useState()
   const { id } = useParams()
@@ -63,6 +63,11 @@ const Editor = () => {
     setQuill(quillServer)
   }, [])
 
+  useEffect(() => {
+    if (quillRef) {
+      quillRef.current = quill
+    }
+  }, [quill, quillRef])
 
   // Connect to backend
   useEffect(() => {
