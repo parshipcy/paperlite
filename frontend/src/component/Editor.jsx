@@ -13,7 +13,7 @@ const StyledEditor = styled('div')({
   flexDirection: 'column',
   borderRadius: '8px',
   width: '100%',
-  maxWidth: '920px',
+  maxWidth: '90%',
   margin: '24px auto',
   padding: '16px',
   boxSizing: 'border-box',
@@ -52,7 +52,7 @@ const Editor = () => {
     return () => {
       socket.disconnect()
     }
-  },[])
+  }, [])
 
   return (
     <StyledEditor className="paperlite-editor">
