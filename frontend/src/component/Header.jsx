@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
 import CircularProgress from '@mui/material/CircularProgress'
 import IconButton from '@mui/material/IconButton'
 import Toolbar from '@mui/material/Toolbar'
@@ -9,14 +8,36 @@ import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf'
+import ShareIcon from '@mui/icons-material/Share'
 import { useParams } from 'react-router-dom'
 
 import logo from '../../assets/paperlite.png'
 import { exportDocumentAsPdf } from '../utils/exportPdf'
 
+const SHARE_COPIED_MESSAGE =
+  'Copied! Now share the link with someone and they can edit.'
+const SHARE_HINT_MESSAGE = 'Click to copy link to share'
+
 const Header = ({ quillRef }) => {
   const { id } = useParams()
   const [isExporting, setIsExporting] = useState(false)
+  const [shareTooltipOpen, setShareTooltipOpen] = useState(false)
+  const [linkCopied, setLinkCopied] = useState(false)
+
+  const handleShare = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href)
+      setLinkCopied(true)
+      setShareTooltipOpen(true)
+
+      setTimeout(() => {
+        setLinkCopied(false)
+        setShareTooltipOpen(false)
+      }, 4000)
+    } catch (error) {
+      console.error('Failed to copy link:', error)
+    }
+  }
 
   const handleDownloadPdf = async () => {
     if (!quillRef?.current || isExporting) return
@@ -97,9 +118,29 @@ const Header = ({ quillRef }) => {
               </IconButton>
             </span>
           </Tooltip>
-          <Button variant="outlined" size="small">
-            Share
-          </Button>
+          <Tooltip
+            title={linkCopied ? SHARE_COPIED_MESSAGE : SHARE_HINT_MESSAGE}
+            open={shareTooltipOpen}
+            onOpen={() => setShareTooltipOpen(true)}
+            onClose={() => {
+              if (!linkCopied) {
+                setShareTooltipOpen(false)
+              }
+            }}
+            slotProps={{
+              tooltip: {
+                sx: { maxWidth: 220, textAlign: 'center' },
+              },
+            }}
+          >
+            <IconButton
+              size="small"
+              onClick={handleShare}
+              aria-label="Share document"
+            >
+              <ShareIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
         </Box>
       </Toolbar>
     </AppBar>
