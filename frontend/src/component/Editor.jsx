@@ -112,11 +112,12 @@ const Editor = () => {
   }, [socket, quill])
 
 
+  // Receive document
   useEffect(() => {
     if (!socket || !quill) return
 
     const handleReceiveDocument = (document) => {
-      quill.setContents(document.content)
+      quill.setContents(document?.content ?? { ops: [] })
       quill.enable()
     }
 
@@ -127,6 +128,19 @@ const Editor = () => {
       socket.off('receive-document', handleReceiveDocument)
     }
   }, [socket, quill, id])
+
+
+  // Save document
+  useEffect(() => {
+    if (!socket || !quill) return
+
+    const interval = setInterval(() => {
+      socket && socket.emit('save-document', quill.getContents())
+    }, 2000)
+
+    return () => clearInterval(interval)
+  }, [socket, quill])
+
 
   return (
     <StyledEditor className="paperlite-editor">

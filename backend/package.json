@@ -19,6 +19,8 @@
     "start": "nodemon index.js"
   },
   "dependencies": {
+    "dotenv": "^17.4.2",
+    "mongoose": "^9.8.0",
     "nodemon": "^3.1.14",
     "socket.io": "^4.8.3"
   }
