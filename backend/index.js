@@ -12,7 +12,13 @@ const io = new Server(3000, {
 
 // Registers an event listener for the "connection" event
 io.on('connection', (socket) => {
-  socket.on('text-change', (delta) => {
-    socket.broadcast.emit('receive-text-change', delta)
+  socket.on('get-document', (documentId) => {
+    const data = { content: { ops: [] } }
+    socket.join(documentId)
+    socket.emit('receive-document', data)
+
+    socket.on('text-change', (delta) => {
+      socket.broadcast.to(documentId).emit('receive-text-change', delta)
+    })
   })
 })
