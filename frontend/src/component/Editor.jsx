@@ -71,7 +71,7 @@ const Editor = ({ quillRef }) => {
 
   // Connect to backend
   useEffect(() => {
-    const socketServer = io('http://localhost:3000')
+    const socketServer = io(import.meta.env.VITE_SOCKET_URL || 'http://localhost:3000')
     setSocket(socketServer)
 
     // Without cleanup, the socket would remain connected,

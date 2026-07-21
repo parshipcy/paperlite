@@ -9,12 +9,14 @@ import {
 dotenv.config()
 connectDB()
 
-const io = new Server(3000, {
+const PORT = process.env.PORT || 3000
+
+const io = new Server(PORT, {
   // Only requests from http://localhost:5173 using GET and POST are allowed.
   // Without this configuration, the browser would block the Socket.IO connection
   // because the frontend and backend are on different origins.
   cors: {
-    origin: 'http://localhost:5173',
+    origin: process.env.CLIENT_URL || 'http://localhost:5173',
     methods: ['GET', 'POST'],
   },
 })
