@@ -6,6 +6,10 @@
 
 <p align="center">A lightweight real-time multi-user document editor</p>
 
+<p align="center">
+  <a href="https://paperlite-api.vercel.app/">Live Demo</a>
+</p>
+
 ## Features
 
 - Real-time collaborative editing with Quill
